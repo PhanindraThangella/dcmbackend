@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: employee-management-system
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/jaidevijewellers_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  jackson:
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  secret: ${JWT_SECRET:aGVsbG9ob3dhcmV5b3ViYWd1bmFyYQAAAAAAAAAAAAA=}
+  access-token-expiration: 7200000
+  refresh-token-expiration: 604800000
+
+cors:
+  allowed-origins:
+    - http://localhost:4200
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: INFO
+    com.dcm.backend: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
