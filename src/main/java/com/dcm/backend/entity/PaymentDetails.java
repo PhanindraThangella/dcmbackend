@@ -118,7 +118,7 @@ public class PaymentDetails {
     @Column(
         name = "employee_name"
     )
-    private Long employeeName=0L;
+    private String employeeName="no";
     @Builder.Default
     @Column(
         name = "credit_id"

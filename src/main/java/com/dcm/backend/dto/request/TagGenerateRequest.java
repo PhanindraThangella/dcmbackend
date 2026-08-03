@@ -8,6 +8,7 @@ public record TagGenerateRequest(
 		Double grossWeight,
 		Double netWeight,
 		Double stoneWeight,
-		Long stoneAmount
+		Long stoneAmount,
+		Long tagNumber
 		) {
 }

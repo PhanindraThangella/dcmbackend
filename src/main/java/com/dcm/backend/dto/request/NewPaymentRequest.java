@@ -6,7 +6,8 @@ public record NewPaymentRequest(
 		Long totalUpi,
 		Double ogGrams,
 		Long ogAmount,
-		String creditId
+		String creditId,
+		String itemType
 		) {
 
 }

@@ -1,8 +1,10 @@
 package com.dcm.backend.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.dcm.backend.entity.EmployeeDetails;
@@ -23,5 +25,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeDetails, Long>
     boolean existsByEmployeeId(String employeeId);
 
     Optional<EmployeeDetails> findTopByOrderByIdDesc();
-
+    
+    @Query("SELECT e.employeeName FROM EmployeeDetails e")
+    List<String> findAllEmployeeNames();
 }

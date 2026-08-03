@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dcm.backend.dto.request.AddEmployeeSalaryRequest;
 import com.dcm.backend.dto.request.NewCreditRequest;
 import com.dcm.backend.dto.request.NewPaymentRequest;
 import com.dcm.backend.dto.request.PurchaseOldMetalRequest;
 import com.dcm.backend.dto.request.UpdateTransactionRequest;
 import com.dcm.backend.dto.response.ApiResponse;
+import com.dcm.backend.dto.response.CreditsResponse;
 import com.dcm.backend.dto.response.DayBookRecordsResponse;
 import com.dcm.backend.dto.response.PendingTransactionsResponse;
 import com.dcm.backend.exception.TransactionsNotFound;
@@ -40,7 +44,7 @@ public class ManagerServiceController {
 		ApiResponse<List<DayBookRecordsResponse>> response=this.managerService.getDayBookRecords();
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	@PostMapping("/updateTransactionStatus")
+	@PutMapping("/updateTransactionStatus")
 	public ResponseEntity<ApiResponse<Void>> updateTransactionStatus(@RequestBody UpdateTransactionRequest request ) throws TransactionsNotFound
 	{
 		ApiResponse<Void> response=this.managerService.updateTransactionAndAmount(request.tagNumber(), request.totalAmount());
@@ -82,5 +86,46 @@ public class ManagerServiceController {
 		ApiResponse<Void> response=this.managerService.createNewNormalCredit(creditId);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-
+	@GetMapping("/getCreditHistory")
+	public ResponseEntity<ApiResponse<Map<String,Object>>> getCreditsOfCustomers(@RequestParam(defaultValue = "0")int page ,
+			@RequestParam(defaultValue = "10")int size)
+	{
+		ApiResponse<Map<String,Object>> response=this.managerService.getAllCredits(page, size);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	@PutMapping("/settleCreditOfCustomer/{id}/{amount}/{flag}")
+	public ResponseEntity<ApiResponse<Void>> settleCredit(@PathVariable("id")Long id,@PathVariable("amount")Long amount,
+			@PathVariable("flag")boolean flag)
+	{
+		ApiResponse<Void> response=this.managerService.settleCreditByCreditId(id, amount,flag);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	@GetMapping("/getGoldDayBook")
+	public ResponseEntity<ApiResponse<List<DayBookRecordsResponse>>> getGoldDayBook(){
+		ApiResponse<List<DayBookRecordsResponse>>response=this.managerService.getGoldDayBookRecords();
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	@GetMapping("/getSilverDayBook")
+	public ResponseEntity<ApiResponse<List<DayBookRecordsResponse>>> getSilverDayBook(){
+		ApiResponse<List<DayBookRecordsResponse>>response=this.managerService.getSilverDayBookRecords();
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	@GetMapping("/getCreditDetailsContactNumber/{contactNumber}")
+	public ResponseEntity<ApiResponse<List<CreditsResponse>>> getCreditsByContactNumber(@PathVariable("contactNumber")Long contactNumber)
+	{
+		ApiResponse<List<CreditsResponse>> response=this.managerService.getCreditsByContactNumber(contactNumber);
+		return ResponseEntity.status(HttpStatus.OK).body(response);	
+	}
+	@GetMapping("/getCreditDetailsCustomerName/{customerName}")
+	public ResponseEntity<ApiResponse<List<CreditsResponse>>> getCreditsByCustomerName(@PathVariable("customerName")String customerName)
+	{
+		ApiResponse<List<CreditsResponse>> response=this.managerService.getCreditsByCustomerName(customerName);
+		return ResponseEntity.status(HttpStatus.OK).body(response);	
+	}
+	@PostMapping("/addEmployeeSalaryPayment")
+	public ResponseEntity<ApiResponse<Void>> addEmployeeSalary(@RequestBody AddEmployeeSalaryRequest request )
+	{
+		ApiResponse<Void> response=this.managerService.addEmployeSalaryPayment(request);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }

@@ -1,5 +1,8 @@
 package com.dcm.backend.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -134,5 +137,16 @@ public class AuthServiceImpl implements AuthService {
                 .timestamp(java.time.LocalDateTime.now())
                 .build();
     }
+
+	@Override
+	public ApiResponse<List<String>> getEmployeesNames() {
+		List<String> response=this.employeeRepository.findAllEmployeeNames();
+		return ApiResponse.<List<String>>builder()
+				.success(true)
+				.message("Employees Names fetched successfully.")
+				.data(response)
+				.timestamp(LocalDateTime.now())
+				.build();
+	}
 
 }

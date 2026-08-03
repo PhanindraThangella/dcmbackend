@@ -72,7 +72,6 @@ public class SecurityConfig {
                                 "/api/auth/register",
                                 "/api/transactions/addTransaction",
                                 "/api/transactions/updateTransaction",
-                                "/api/manager/updateTransactionStatus",
                                 "/api/manager/createCredit",
                                 "/api/manager/addNewPayment",
                                 "/api/manager/addPurchaseOldMetalPayment",
@@ -80,12 +79,20 @@ public class SecurityConfig {
                                 "/api/admin/createNewLot",
                                 "/api/tags/createNewTag",
                                 "/api/purse/addMoneyToPurse/*",
-                                "/api/manager/newNormalCredit/*"
+                                "/api/manager/newNormalCredit/*",
+                                "/api/manager/addEmployeeSalaryPayment"
                         ).permitAll()
                         .requestMatchers(
                         		HttpMethod.DELETE,
-                        		"/api/manager/remove/transaction/*"
-                        		).permitAll()
+                        		"/api/manager/remove/transaction/*",
+                        		"/api/tags/deleteItem/*"
+                        ).permitAll()
+                        .requestMatchers(
+                        		HttpMethod.PUT,
+                        		"/api/manager/settleCreditOfCustomer/*/*/*",
+                        		"/api/manager/updateTransactionStatus",
+                        		"/api/tags/updateTagDetails"
+                        ).permitAll()
                         .requestMatchers(
                         		HttpMethod.GET,
                         		"/api/transactions/getTransactions/*",
@@ -96,7 +103,16 @@ public class SecurityConfig {
                         		"/api/manager/getPendingTransactions",
                         		"/api/purse/getPurseRecords",
                         		"/api/purse/getCurrentPurse",
-                        		"/api/manager/getDayBookSales"
+                        		"/api/manager/getDayBookSales",
+                        		"/api/manager/getCreditHistory",
+                        		"/api/manager/getGoldDayBook",
+                        		"/api/manager/getSilverDayBook",
+                        		"/api/tags/getTagDetails/*",
+                        		"/api/tags/getItems/*",
+                        		"/api/tags/getRecentItems",
+                        		"/api/manager/getCreditDetailsContactNumber/*",
+                        		"/api/manager/getCreditDetailsCustomerName/*",
+                        		"/api/auth/getEmployeeNames"
                         		).permitAll()
                         .requestMatchers(
                                 "/error",

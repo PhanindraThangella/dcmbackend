@@ -1,5 +1,7 @@
 package com.dcm.backend.service;
 
+import java.util.List;
+
 import com.dcm.backend.dto.request.LoginRequest;
 import com.dcm.backend.dto.request.RegisterRequest;
 import com.dcm.backend.dto.response.ApiResponse;
@@ -25,5 +27,6 @@ public interface AuthService {
      * @return login response containing JWT
      */
     ApiResponse<LoginResponse> login(LoginRequest request);
+    ApiResponse<List<String>> getEmployeesNames();
 
 }

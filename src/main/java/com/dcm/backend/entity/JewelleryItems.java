@@ -89,7 +89,6 @@ public class JewelleryItems {
 
     @Column(
         name = "lot_no",
-        unique = true,
         nullable=false
     )
     private Long lotNo;

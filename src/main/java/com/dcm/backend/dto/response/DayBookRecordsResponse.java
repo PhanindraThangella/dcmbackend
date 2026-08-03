@@ -17,7 +17,8 @@ public record DayBookRecordsResponse(
 		Long oldSilverAmount,
 		Long creditAmount,
 		String customerName,
-		Long mobileNumber
+		Long mobileNumber,
+		String employeeName
 		) {
 
 }
