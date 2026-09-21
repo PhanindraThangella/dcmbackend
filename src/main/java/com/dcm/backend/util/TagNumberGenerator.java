@@ -1,12 +1,7 @@
 package com.dcm.backend.util;
 
-import java.util.Optional;
-
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
-import com.dcm.backend.entity.JewelleryItems;
-import com.dcm.backend.repository.EmployeeRepository;
-import com.dcm.backend.repository.JewelleryItemsRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,40 +9,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TagNumberGenerator {
 
-
-    private final JewelleryItemsRepository itemRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     public Long generateTagNumber(String metalType) {
 
-        if (metalType.toUpperCase().equals("GOLD")) {
-        	Optional<JewelleryItems> item =
-                    itemRepository.findTopByMainProductOrderByIdDesc(metalType);
-        	if(item.isEmpty())
-        	{
-        		return 140000L;
-        	}
-        	Long tagNumber = item.get().getTagNumber();
-
-            Long nextNumber =tagNumber+ 1;
-
-            return nextNumber;
-
+        if (metalType == null) {
+            throw new IllegalArgumentException("Metal type cannot be null");
         }
-        else if(metalType.toUpperCase().equals("SILVER"))
-        {
-        	Optional<JewelleryItems> item =
-                    itemRepository.findTopByMainProductOrderByIdDesc(metalType);
-        	if(item.isEmpty())
-        	{
-        		return 500000L;
-        	}
-        	Long tagNumber = item.get().getTagNumber();
 
-            Long nextNumber =tagNumber+ 1;
+        return switch (metalType.toUpperCase()) {
 
-            return nextNumber;
-        }
-		return 0L;
+            case "GOLD" -> jdbcTemplate.queryForObject(
+                    "SELECT nextval('gold_tag_sequence')",
+                    Long.class
+            );
+
+            case "SILVER" -> jdbcTemplate.queryForObject(
+                    "SELECT nextval('silver_tag_sequence')",
+                    Long.class
+            );
+
+            default -> throw new IllegalArgumentException(
+                    "Invalid metal type: " + metalType
+            );
+        };
     }
-
 }

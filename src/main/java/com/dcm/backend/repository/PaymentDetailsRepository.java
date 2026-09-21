@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.dcm.backend.entity.PaymentDetails;
 
 public interface PaymentDetailsRepository extends JpaRepository<PaymentDetails,Long> {
-	List<PaymentDetails> findByCreatedAtBetween(LocalDateTime start,LocalDateTime end);
+	List<PaymentDetails> findByCreatedAtBetweenOrderByCreatedAtDesc(LocalDateTime start,LocalDateTime end);
 }

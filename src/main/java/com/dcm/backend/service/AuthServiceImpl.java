@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
         Credentials credentials = Credentials.builder()
                 .username(request.employeePhoneNumber())
                 .password(passwordEncoder.encode(request.password()))
-                .role(Role.ADMIN)
+                .role(Role.TAGGENERATOR)
                 .status(Status.ACTIVE)
                 .employee(employee)
                 .build();

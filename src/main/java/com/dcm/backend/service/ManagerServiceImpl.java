@@ -115,6 +115,13 @@ public class ManagerServiceImpl implements ManagerService{
 		newPayment.setTagNumber(Long.parseLong(request.tagNumber()));
 		newPayment.setTotalCash(request.totalCash());
 		newPayment.setTotalUpiAmount(request.totalUpi());
+		if(Integer.parseInt(request.creditId())!=0) {
+			Optional<CreditDetails> creditResponse=creditDetailsRepository.findById(Long.parseLong(request.creditId()));
+			newPayment.setCreditAmount(creditResponse.get().getTotalAmount());
+		}
+		else {
+			newPayment.setCreditAmount(0L);
+		}
 		if(request.itemType().toUpperCase().equals("GOLD"))
 		{
 			newPayment.setOldGoldGrams(request.ogGrams());
@@ -240,7 +247,7 @@ public class ManagerServiceImpl implements ManagerService{
 		LocalDate today = LocalDate.now();
         LocalDateTime startOfToday = today.atStartOfDay(); 
         LocalDateTime endOfToday = today.atTime(LocalTime.MAX); 
-		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetween(startOfToday, endOfToday);
+		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(startOfToday, endOfToday);
 		List<DayBookRecordsResponse> result=new ArrayList<DayBookRecordsResponse>();
 		for(PaymentDetails t:fetchedList)
 		{
@@ -248,12 +255,6 @@ public class ManagerServiceImpl implements ManagerService{
 			if(t.getTagNumber()!=0)
 			{
 				Transactions tran=this.transactionRepository.findByTagNumber(t.getTagNumber());
-				Long creditAmount=0L;
-				if(t.getCreditId()>0)
-				{
-					Optional<CreditDetails> cred=this.creditDetailsRepository.findById(t.getCreditId());
-					creditAmount=cred.get().getTotalAmount();
-				}
 				if(tran.getItemType().equals(ItemType.GOLD))
 				{
 					DayBookRecordsResponse res=DayBookRecordsResponse.builder()
@@ -266,7 +267,7 @@ public class ManagerServiceImpl implements ManagerService{
 							.oldGoldGrams(t.getOldGoldGrams())
 							.oldGoldAmount(t.getOldGoldAmount())
 							.itemType(tran.getItemType().toString())
-							.creditAmount(creditAmount)
+							.creditAmount(t.getCreditAmount())
 							.build();
 					result.add(res);
 				}
@@ -282,7 +283,7 @@ public class ManagerServiceImpl implements ManagerService{
 							.oldSilverGrams(t.getOldSilverGrams())
 							.oldSilverAmount(t.getOldSilverAmount())
 							.itemType(tran.getItemType().toString())
-							.creditAmount(creditAmount)
+							.creditAmount(t.getCreditAmount())
 							.build();
 					result.add(res);
 				}
@@ -408,7 +409,7 @@ public class ManagerServiceImpl implements ManagerService{
 		LocalDate today = LocalDate.now();
         LocalDateTime startOfToday = today.atStartOfDay(); 
         LocalDateTime endOfToday = today.atTime(LocalTime.MAX); 
-		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetween(startOfToday, endOfToday);
+		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(startOfToday, endOfToday);
 		List<DayBookRecordsResponse> result=new ArrayList<DayBookRecordsResponse>();
 		for(PaymentDetails t:fetchedList)
 		{
@@ -458,7 +459,7 @@ public class ManagerServiceImpl implements ManagerService{
 		LocalDate today = LocalDate.now();
         LocalDateTime startOfToday = today.atStartOfDay(); 
         LocalDateTime endOfToday = today.atTime(LocalTime.MAX); 
-		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetween(startOfToday, endOfToday);
+		List<PaymentDetails> fetchedList=this.paymentDetailsRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(startOfToday, endOfToday);
 		List<DayBookRecordsResponse> result=new ArrayList<DayBookRecordsResponse>();
 		for(PaymentDetails t:fetchedList)
 		{

@@ -126,6 +126,11 @@ public class PaymentDetails {
     private Long creditId=0L;
     @Builder.Default
     @Column(
+        name = "credit_amount"
+    )
+    private Long creditAmount=0L;
+    @Builder.Default
+    @Column(
         name = "order_id"
     )
     private Long orderId=0L;

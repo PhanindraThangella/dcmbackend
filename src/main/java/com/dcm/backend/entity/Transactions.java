@@ -62,8 +62,7 @@ public class Transactions {
 	private Double wastage;
 	@Column(
 	        name = "tag_number",
-	        nullable = false,
-	        unique=true
+	        nullable = false
 	    )
 	private Long tagNumber;
 	@Column(

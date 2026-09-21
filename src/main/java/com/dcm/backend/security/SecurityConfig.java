@@ -68,52 +68,8 @@ public class SecurityConfig {
                 		.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/api/auth/login",
-                                "/api/auth/register",
-                                "/api/transactions/addTransaction",
-                                "/api/transactions/updateTransaction",
-                                "/api/manager/createCredit",
-                                "/api/manager/addNewPayment",
-                                "/api/manager/addPurchaseOldMetalPayment",
-                                "/api/manager/addSellPureMetalPayment",
-                                "/api/admin/createNewLot",
-                                "/api/tags/createNewTag",
-                                "/api/purse/addMoneyToPurse/*",
-                                "/api/manager/newNormalCredit/*",
-                                "/api/manager/addEmployeeSalaryPayment"
+                                "/api/auth/login"                           
                         ).permitAll()
-                        .requestMatchers(
-                        		HttpMethod.DELETE,
-                        		"/api/manager/remove/transaction/*",
-                        		"/api/tags/deleteItem/*"
-                        ).permitAll()
-                        .requestMatchers(
-                        		HttpMethod.PUT,
-                        		"/api/manager/settleCreditOfCustomer/*/*/*",
-                        		"/api/manager/updateTransactionStatus",
-                        		"/api/tags/updateTagDetails"
-                        ).permitAll()
-                        .requestMatchers(
-                        		HttpMethod.GET,
-                        		"/api/transactions/getTransactions/*",
-                        		"/api/admin/getStatsForDashboard/*",
-                        		"/api/admin/getGoldSilverStats/*",
-                        		"/api/admin/getRecentTransaction/*",
-                        		"/api/admin/getTopPerformingEmployees/*",
-                        		"/api/manager/getPendingTransactions",
-                        		"/api/purse/getPurseRecords",
-                        		"/api/purse/getCurrentPurse",
-                        		"/api/manager/getDayBookSales",
-                        		"/api/manager/getCreditHistory",
-                        		"/api/manager/getGoldDayBook",
-                        		"/api/manager/getSilverDayBook",
-                        		"/api/tags/getTagDetails/*",
-                        		"/api/tags/getItems/*",
-                        		"/api/tags/getRecentItems",
-                        		"/api/manager/getCreditDetailsContactNumber/*",
-                        		"/api/manager/getCreditDetailsCustomerName/*",
-                        		"/api/auth/getEmployeeNames"
-                        		).permitAll()
                         .requestMatchers(
                                 "/error",
                                 "/actuator/health"

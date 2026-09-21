@@ -18,5 +18,7 @@ public enum Role {
     /**
      * Regular employee with limited access.
      */
-    EMPLOYEE
+    EMPLOYEE,
+    MANAGER,
+    TAGGENERATOR
 }
